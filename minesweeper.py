@@ -105,7 +105,9 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
-        if len(self.cells) == self.count:
+        if len(self.cells) == 0:
+            return set()
+        elif len(self.cells) == self.count:
             return self.cells
 
 
@@ -113,7 +115,9 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be safe.
         """
-        if self.count == 0:
+        if len(self.cells) == 0:
+            return set()
+        elif self.count == 0:
             return self.cells
 
 
@@ -125,7 +129,7 @@ class Sentence():
         if cell in self.cells:
             self.count -= 1
             self.cells.remove(cell)
- 
+
 
     def mark_safe(self, cell):
         """
@@ -198,13 +202,13 @@ class MinesweeperAI():
             for y in range(j-1, j+2):
                 if (x, y) == cell or not (0 <= x < self.height and 0 <= y < self.width):
                     continue
-                
+
                 if (x, y) in self.mines:
                     count -= 1
                 elif  (x, y) not in self.safes:
                     cells.add((x,y))
-        sentence = Sentence(cells, count)  
-        self.knowledge.append(sentence)   
+        sentence = Sentence(cells, count)
+        self.knowledge.append(sentence)
 
         made_progress = True
         while made_progress:
@@ -212,17 +216,17 @@ class MinesweeperAI():
             for sentences in list(self.knowledge):
                 known_mines = sentences.known_mines()
                 known_safes = sentences.known_safes()
-                
+
                 if known_mines:
                     for m in set(known_mines):
                         self.mark_mine(m)
                         made_progress = True
-                
+
                 if known_safes:
                     for s in set(known_safes):
                         self.mark_safe(s)
                         made_progress = True
-                
+
                 new_inferences = []
                 for s1 in self.knowledge:
                     for s2 in self.knowledge:
@@ -254,7 +258,7 @@ class MinesweeperAI():
         for safe_move in self.safes:
             if safe_move not in self.moves_made:
                 return safe_move
-            
+
         return None
 
     def make_random_move(self):
@@ -272,4 +276,4 @@ class MinesweeperAI():
         if choices:
             return random.choice(choices)
         return None
-        
+
