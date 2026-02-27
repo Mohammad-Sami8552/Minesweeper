@@ -210,6 +210,7 @@ class MinesweeperAI():
         made_progress = True
         while made_progress:
             made_progress = False
+            new_inferences = []
             for sentences in list(self.knowledge):
                 known_mines = sentences.known_mines()
                 known_safes = sentences.known_safes()
@@ -224,7 +225,7 @@ class MinesweeperAI():
                         self.mark_safe(s)
                         made_progress = True
 
-                new_inferences = []
+
                 for s1 in self.knowledge:
                     for s2 in self.knowledge:
                         if s1 == s2 or not s1.cells or not s2.cells:
