@@ -117,7 +117,6 @@ class Sentence():
             return self.cells
         return set()
 
-
     def mark_mine(self, cell):
         """
         Updates internal knowledge representation given the fact that
@@ -126,7 +125,6 @@ class Sentence():
         if cell in self.cells:
             self.count -= 1
             self.cells.remove(cell)
-
 
     def mark_safe(self, cell):
         """
@@ -202,8 +200,8 @@ class MinesweeperAI():
 
                 if (x, y) in self.mines:
                     count -= 1
-                elif  (x, y) not in self.safes:
-                    cells.add((x,y))
+                elif (x, y) not in self.safes:
+                    cells.add((x, y))
         sentence = Sentence(cells, count)
         self.knowledge.append(sentence)
 
@@ -225,7 +223,6 @@ class MinesweeperAI():
                         self.mark_safe(s)
                         made_progress = True
 
-
                 for s1 in self.knowledge:
                     for s2 in self.knowledge:
                         if s1 == s2 or not s1.cells or not s2.cells:
@@ -241,8 +238,6 @@ class MinesweeperAI():
 
             self.knowledge.extend(new_inferences)
             self.knowledge = [s for s in self.knowledge if s.cells]
-
-
 
     def make_safe_move(self):
         """
@@ -274,4 +269,3 @@ class MinesweeperAI():
         if choices:
             return random.choice(choices)
         return None
-
